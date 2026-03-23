@@ -11,13 +11,10 @@ impl UserByIdQuery {
         let pool = ctx.data::<MySqlPool>()?;
 
         let user_id = id.parse::<i64>()?;
-        let user = sqlx::query_as::<_, User>(
-            "SELECT id, firstname, lastname, email, mobile, username, isactivated, isblocked, mailtoken, userpic, qrcodeurl 
-            FROM users u WHERE id = ?"
-        )
+        let user = sqlx::query_as::<_, User>(r#"SELECT id, firstname, lastname, email, mobile, CAST(username AS CHAR) as username, isactivated, isblocked, mailtoken, userpic, COALESCE(qrcodeurl, null) as qrcodeurl FROM users WHERE id = ?"#)
         .bind(user_id)
         .fetch_optional(pool)
-        .await?;        
+        .await?;
 
         match user {
             Some(u) => Ok(Some(u)),

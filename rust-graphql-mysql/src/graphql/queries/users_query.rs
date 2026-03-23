@@ -10,10 +10,7 @@ impl UsersQuery {
     async fn users(&self, ctx: &Context<'_>) -> Result<Vec<User>> {
         let pool = ctx.data::<MySqlPool>()?;
 
-        let users = sqlx::query_as!(
-            User,
-            "SELECT id, firstname, lastname, email, mobile, username, isactivated, isblocked, mailtoken, userpic, qrcodeurl FROM users"
-        )
+        let users: Vec<User> = sqlx::query_as(r#"SELECT id, firstname, lastname, email, mobile, CAST(username AS CHAR) as username, isactivated, isblocked, mailtoken, userpic, COALESCE(qrcodeurl, null) as qrcodeurl FROM users"#)
         .fetch_all(pool)
         .await?;
 
@@ -24,32 +21,6 @@ impl UsersQuery {
         Ok(users)
     }
 }
-
-
-// use async_graphql::{Context, Object, Result};
-// use sqlx::MySqlPool; 
-// use crate::graphql::types::User;
-
-// #[derive(Default)]
-// pub struct UsersQuery;
-
-// #[Object] 
-// impl UsersQuery {
-//      async fn users(&self, ctx: &Context<'_>) -> Result<Vec<User>> {
-//         let pool = ctx.data::<MySqlPool>()?;
-
-//         let users = sqlx::query_as!(
-//             User,
-//             "SELECT id, firstname, lastname, email, mobile, username, isactivated, isblocked, mailtoken, userpic, qrcodeurl FROM users"
-//         )
-//         .fetch_all(pool)
-//         .await?;
-
-        
-
-//         Ok(users)
-//     }
-// }
 
 // =====REQUEST======
 // query GetUsers {

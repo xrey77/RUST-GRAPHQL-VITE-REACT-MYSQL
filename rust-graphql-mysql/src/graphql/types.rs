@@ -5,16 +5,16 @@ use serde::{Serialize, Deserialize};
 #[derive(SimpleObject, Serialize, Deserialize, sqlx::FromRow)]
 #[graphql(complex)] 
 pub struct User {
-    pub id: Option<i64>,
-    pub firstname: Option<String>,
-    pub lastname: Option<String>,
+    pub id: i64,
+    pub firstname: String,
+    pub lastname: String,
     pub email: String,
-    pub mobile: Option<String>,
+    pub mobile: String,
     pub username: String,
-    pub isactivated: Option<i32>,
-    pub isblocked: Option<i32>,
-    pub mailtoken: Option<i32>,
-    pub userpic: Option<String>,
+    pub isactivated: i64,
+    pub isblocked: i64,
+    pub mailtoken: i64,
+    pub userpic: String,
     pub qrcodeurl: Option<String>
 }
 
