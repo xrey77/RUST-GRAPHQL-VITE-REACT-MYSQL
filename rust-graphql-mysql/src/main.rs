@@ -1,18 +1,27 @@
-mod routes;
-mod schema;
+// run : cargo run
+// graphql endpoint : http://127.0.0.1:3000/graphiql
 
-use askama::Template;
-// use axum::response::IntoResponse;
-use axum::response::Html;
+pub mod graphql; // This tells Rust to look for src/graphql/mod.rs
+pub mod schema;
+mod core;
+mod routes;
+
 use axum::{routing::{get, post}, Router};
+use askama::Template;
+use axum::response::Html;
 use axum::http::{self, Method, header};
-use crate::routes::graphql::{graphql_handler, graphiql_source};
+use crate::routes::graphiql::{graphiql_handler, graphiql_source};
 use tower_http::services::ServeDir;
 use tower_http::cors::CorsLayer;
+use crate::core::database::establish_connection;
 
 #[tokio::main]
 async fn main() {
-    let schema = schema::build_schema();
+    let pool = establish_connection()
+            .await
+            .expect("Failed to connect to the database");    
+
+    let schema = schema::build_schema(pool.clone());            
 
     let static_files_service = ServeDir::new("assets");
 
@@ -25,7 +34,7 @@ async fn main() {
     let app = Router::new()
         .nest_service("/assets", static_files_service)
         .layer(cors)
-        .route("/graphql", post(graphql_handler))
+        .route("/graphql", post(graphiql_handler))
         .route("/", get(root_handler))
         .route("/graphiql", get(graphiql_source))         
         .with_state(schema);
@@ -43,18 +52,3 @@ async fn root_handler() -> Html<String> {
     let html_content = template.render().unwrap();
     Html(html_content)
 }
-// #[derive(Template)]
-// #[template(path = "index.html")]
-// struct RustTemplate<'a> {
-//     #[allow(dead_code)]
-//     title: &'a str,
-// }
-
-// async fn root_handler() -> Html<String> {
-//     let template = RustTemplate {
-//         title: "WORLD BANK",
-//     };
-//     let html_content = template.render().unwrap();
-//     Html(html_content)
-// }
-

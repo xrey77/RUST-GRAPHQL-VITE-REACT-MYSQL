@@ -1,9 +1,8 @@
-pub mod query;
+pub mod queries;
 pub mod mutation;
 pub mod types;
 
-use async_graphql::{Schema, EmptyMutation, EmptySubscription};
-pub use query::QueryRoot;
+// use async_graphql::{Schema, EmptyMutation, EmptySubscription};
+// pub use query::QueryRoot;
 
-// Convenient type alias for the full schema
-pub type AppSchema = Schema<QueryRoot, EmptyMutation, EmptySubscription>;
+// pub type AppSchema = Schema<QueryRoot, EmptyMutation, EmptySubscription>;

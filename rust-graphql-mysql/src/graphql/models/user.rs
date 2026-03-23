@@ -19,5 +19,10 @@ struct User {
     mailtoken: i64,
     userpic: String,
     qrcodeurl: String,
-    secret: String
+    secret: String    
+
+    pub role: Role, 
 }
+
+
+
