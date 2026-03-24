@@ -1,6 +1,6 @@
 use async_graphql::{Context, Object, Result, Error};
 use sqlx::MySqlPool; 
-use crate::graphql::types::User;
+use crate::graphql::types::user_types::User;
 
 #[derive(Default)]
 pub struct UsersQuery;

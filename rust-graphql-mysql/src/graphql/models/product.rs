@@ -23,16 +23,3 @@ struct Product {
     #[sqlx(flatten)] 
     pub category_details: Option<Category>,     
 }
-
-// To fetch a product with its category:
-// let product = sqlx::query_as::<_, Product>(
-//     r#"
-//     SELECT p.*, c.id AS "category.id", c.name AS "category.name"
-//     FROM Product p
-//     JOIN Category c ON p.category_id = c.id
-//     WHERE p.id = ?
-//     "#
-// )
-// .bind(product_id)
-// .fetch_one(&pool)
-// .await?;

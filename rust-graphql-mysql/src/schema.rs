@@ -1,19 +1,40 @@
 use async_graphql::{MergedObject, Schema, EmptySubscription};
 use crate::graphql::queries::userid_query::UserByIdQuery;
 use crate::graphql::queries::users_query::UsersQuery;
+use crate::graphql::queries::product_list_query::ProductList;
+use crate::graphql::queries::product_search_query::ProductSearch;
+use crate::graphql::queries::sale_query::SaleQuery;
+use crate::graphql::queries::products_query::ProductReport;
+use crate::graphql::queries::product_category_query::ProductCategory;
+
 use crate::graphql::mutations::creates::newuser::FormRegistration;
 use crate::graphql::mutations::login::signin::UserSignin;
 use crate::graphql::mutations::profile::update::ProfileMutation;
 use crate::graphql::mutations::password::change::ChangePassword;
 use crate::graphql::mutations::activate::mfa_mutation::ActivateMfa;
 use crate::graphql::mutations::verify::otp_verification::OtpVerification;
+use crate::graphql::mutations::profile::upload::UploadPicture;
 use sqlx::MySqlPool;
 
 #[derive(MergedObject, Default)]
-pub struct QueryRoot(UserByIdQuery, UsersQuery);
+pub struct QueryRoot(
+    UserByIdQuery,
+    UsersQuery,
+    ProductList,
+    ProductSearch,
+    SaleQuery,
+    ProductReport,
+    ProductCategory);
 
 #[derive(MergedObject, Default)]
-pub struct MutationRoot(FormRegistration, UserSignin, ProfileMutation, ChangePassword, ActivateMfa, OtpVerification);
+pub struct MutationRoot(
+    FormRegistration,
+    UserSignin,
+    ProfileMutation,
+    ChangePassword,
+    ActivateMfa,
+    OtpVerification,
+    UploadPicture);
 
 pub type AppSchema = Schema<QueryRoot, MutationRoot, EmptySubscription>;
 
