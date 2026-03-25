@@ -1,9 +1,8 @@
 use sqlx::FromRow;
 use serde::{Serialize, Deserialize};
-use rust_decimal::Decimal;
-use chrono::{DateTime, Utc}; 
 
-#[derive(Debug, Serialize, Deserialize, FromRow)]
+
+#[derive(Debug, Clone, Serialize, Deserialize, FromRow, async_graphql::SimpleObject)] // Added SimpleObject
 pub struct Role {
     pub id: Option<i32>,
     pub name: String,

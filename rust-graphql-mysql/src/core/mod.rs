@@ -1,2 +1,3 @@
 pub mod database;
-pub mod guard;
+pub mod auth;
+pub mod authenticated_users;

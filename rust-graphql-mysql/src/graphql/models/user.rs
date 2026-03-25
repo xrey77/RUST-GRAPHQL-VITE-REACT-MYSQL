@@ -1,11 +1,10 @@
-use sqlx::{mysql::MySqlPool, FromRow};
-use serde::{Serialize, Deserialize};
+// use sqlx::{FromRow};
+// use serde::{Serialize, Deserialize};
+use crate::graphql::models::role::Role;
 
-#[macro_use]
-extern crate serde_derive;
-
-#[derive(Serialize, Deserialize, FromRow)]
-struct User {
+// #[derive(Serialize, Deserialize, FromRow)]
+#[derive(Clone, Debug, async_graphql::SimpleObject)] 
+pub struct User {
     id: Option<i32>,
     firstname: String,
     lastname: String,
@@ -19,8 +18,8 @@ struct User {
     mailtoken: i64,
     userpic: String,
     qrcodeurl: String,
-    secret: String    
-    pub role: Role, 
+    secret: String,
+    pub role: Role 
 }
 
 

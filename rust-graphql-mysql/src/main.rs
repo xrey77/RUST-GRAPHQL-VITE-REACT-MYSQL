@@ -1,11 +1,13 @@
 // run : cargo run
 // graphql endpoint : http://127.0.0.1:3000/graphiql
 
-pub mod graphql; // This tells Rust to look for src/graphql/mod.rs
+pub mod graphql;
 pub mod schema;
 mod core;
 mod routes;
 
+// use ax_http::header::{CONTENT_TYPE, AUTHORIZATION}; 
+use axum::http::header::{AUTHORIZATION};
 use tower_http::cors::{Any, CorsLayer};
 use axum::{routing::{get, post}, Router};
 use askama::Template;
@@ -28,7 +30,7 @@ async fn main() {
     let cors = CorsLayer::new()
         .allow_origin(Any)
         .allow_methods([Method::POST, Method::GET])
-        .allow_headers([http::header::CONTENT_TYPE]);
+        .allow_headers([http::header::CONTENT_TYPE, AUTHORIZATION]);
 
     let app = Router::new()
         .nest_service("/assets", static_files_service)

@@ -4,6 +4,7 @@ use totp_rs::{Algorithm, TOTP};
 use base32::Alphabet;
 use sqlx::{FromRow};
 use serde::Serialize;
+use crate::core::authenticated_users::AuthenticatedUser;
 
 #[derive(InputObject)]
 pub struct OtpVerificationInput {
@@ -33,6 +34,13 @@ impl OtpVerification {
         ctx: &Context<'_>, 
         input: OtpVerificationInput
     ) -> Result<OtpVerificationResponse> {
+        let user = ctx.data::<AuthenticatedUser>()?;
+        
+        match user {
+            AuthenticatedUser::User(claims) => Ok(format!("Hello user {}", claims.sub)),
+            _ => Err(async_graphql::Error::new("Unauthorized")),
+        }?;
+
         let pool = ctx.data::<MySqlPool>()?;
 
         let user = sqlx::query_as::<_, Users>("SELECT email, CAST(username AS CHAR) as username, secret FROM users WHERE id = ?")

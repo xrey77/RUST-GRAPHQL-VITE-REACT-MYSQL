@@ -1,16 +1,10 @@
 use jsonwebtoken::{encode, Header, EncodingKey};
-use serde::{Serialize, Deserialize};
 use chrono::{Utc, Duration};
 use async_graphql::{Object, Context, Result, InputObject, SimpleObject, Error};
 use sqlx::MySqlPool;
 use bcrypt::verify;
 use dotenvy::dotenv;
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Claims {
-    sub: String,
-    exp: usize,
-}
+use crate::graphql::models::claims_struct::Claims;
 
 #[derive(InputObject)]
 pub struct SigninInput {

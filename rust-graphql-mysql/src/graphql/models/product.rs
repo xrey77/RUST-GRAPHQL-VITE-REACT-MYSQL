@@ -1,12 +1,10 @@
-use sqlx::{mysql::MySqlPool, FromRow};
+use sqlx::{FromRow};
 use serde::{Serialize, Deserialize};
 use rust_decimal::Decimal;
-
-#[macro_use]
-extern crate serde_derive;
+use crate::graphql::models::category::Category;
 
 #[derive(Serialize, Deserialize, FromRow)]
-struct Product {
+pub struct Product {
     id: Option<i32>,
     category: String,
     descriptions: String,
@@ -17,7 +15,7 @@ struct Product {
     saleprice: Decimal,
     productpicture: String,
     alertstocks: i64,
-    criticalstocks: i64
+    criticalstocks: i64,
 
 
     #[sqlx(flatten)] 

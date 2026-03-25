@@ -1,5 +1,6 @@
 use async_graphql::{Object, Context, Result, InputObject, SimpleObject};
 use sqlx::MySqlPool;
+use crate::core::authenticated_users::AuthenticatedUser;
 
 #[derive(InputObject)]
 pub struct ProfileInput {
@@ -24,6 +25,14 @@ impl ProfileMutation {
         ctx: &Context<'_>, 
         input: ProfileInput
     ) -> Result<ProfileResponse> {
+
+        let user = ctx.data::<AuthenticatedUser>()?;
+        
+        match user {
+            AuthenticatedUser::User(claims) => Ok(format!("Hello user {}", claims.sub)),
+            _ => Err(async_graphql::Error::new("Unauthorized")),
+        }?;
+
         let pool = ctx.data::<MySqlPool>()?;
         
 

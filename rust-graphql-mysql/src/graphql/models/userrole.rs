@@ -1,4 +1,7 @@
-#[derive(Serialize, Deserialize, FromRow)]
+use serde::{Serialize, Deserialize};
+
+
+#[derive(Serialize, Deserialize)]
 pub struct UserWithRole {
     pub id: i32,
     pub username: String,

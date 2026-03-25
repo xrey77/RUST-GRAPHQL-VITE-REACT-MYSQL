@@ -43,12 +43,12 @@ export default function Mfa() {
                   id: parseInt(userid),
                   otp: otp
               }
-            }
-            // context: {
-            //     headers: {
-            //         Authorization: `Bearer ${token}`,
-            //     },
-            // },
+            },
+            context: {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            },
         });
     } catch (err: any) {
         setMessage(err.message);

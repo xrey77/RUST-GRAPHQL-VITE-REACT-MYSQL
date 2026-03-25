@@ -26,7 +26,7 @@ export interface UserData {
   isactivated: boolean;
   isblocked: boolean;
   mailtoken: string;
-  userpicture: string;
+  userpic: string;
   qrcodeurl?: string;
 }
 

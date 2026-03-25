@@ -1,6 +1,7 @@
 use async_graphql::{Object, Context, Result, InputObject, SimpleObject};
 use sqlx::MySqlPool;
 use bcrypt::{hash, DEFAULT_COST};
+use crate::core::authenticated_users::AuthenticatedUser;
 
 #[derive(InputObject)]
 pub struct ChangePasswordInput {
@@ -23,8 +24,15 @@ impl ChangePassword {
         ctx: &Context<'_>, 
         input: ChangePasswordInput
     ) -> Result<ChangePasswordResponse> {
-        let pool = ctx.data::<MySqlPool>()?;
+
+        let user = ctx.data::<AuthenticatedUser>()?;
         
+        match user {
+            AuthenticatedUser::User(claims) => Ok(format!("Hello user {}", claims.sub)),
+            _ => Err(async_graphql::Error::new("Unauthorized")),
+        }?;
+
+        let pool = ctx.data::<MySqlPool>()?;        
 
         let existing = sqlx::query!(
             "SELECT email, username FROM users WHERE id = ?",

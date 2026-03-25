@@ -2,6 +2,7 @@ use async_graphql::{Object, Context, Result, InputObject, SimpleObject};
 use sqlx::MySqlPool;
 use totp_rs::{Algorithm, TOTP, Secret};
 use data_encoding::BASE32;
+use crate::core::authenticated_users::AuthenticatedUser;
 
 #[derive(InputObject)]
 pub struct ActivateMfaInput {
@@ -25,8 +26,14 @@ impl ActivateMfa {
         ctx: &Context<'_>, 
         input: ActivateMfaInput
     ) -> Result<ActivateMfaResponse> {
-        let pool = ctx.data::<MySqlPool>()?;
+        let user = ctx.data::<AuthenticatedUser>()?;
+        
+        match user {
+            AuthenticatedUser::User(claims) => Ok(format!("Hello user {}", claims.sub)),
+            _ => Err(async_graphql::Error::new("Unauthorized")),
+        }?;
 
+        let pool = ctx.data::<MySqlPool>()?;
 
         let users_result = sqlx::query!(
             "SELECT email, username FROM users WHERE id = ?",

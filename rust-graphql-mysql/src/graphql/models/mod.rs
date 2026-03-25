@@ -3,4 +3,5 @@ pub mod product;
 pub mod role;
 pub mod sale;
 pub mod category;
-pub mod userrole
+pub mod userrole;
+pub mod claims_struct;

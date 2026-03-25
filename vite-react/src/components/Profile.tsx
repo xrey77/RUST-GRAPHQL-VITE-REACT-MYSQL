@@ -37,23 +37,22 @@ export default function Profile() {
     const [user] = useLazyQuery<GetUserIdData, GetUserIdVariables>(GETUSERID_QUERY);
 
     const fetchUserData = async (idno: any, tokenid: any) => {
-        
         try {
             const { data } = await user({ 
-                variables: { id: idno }
-                // context: {
-                //     headers: {
-                //         Authorization: `Bearer ${tokenid}`,
-                //     },
-                // },
+                variables: { id: idno },
+                context: {
+                    headers: {
+                        Authorization: `Bearer ${tokenid}`,
+                    },
+                },
             });
             if (data?.user) {
                 setLname(data.user.lastname);
                 setFname(data.user.firstname);
                 setEmail(data.user.email);
                 setMobile(data.user.mobile);
-                setUserpicture(`http://127.0.0.1:3000/assets/users/${data.user.userpic}`);
-                setQrcodeurl(data.user.qrcodeurl ?? '/images/qrcode.png');
+                setUserpicture(`/assets/users/${data.user.userpic}`);
+                setQrcodeurl(data.user.qrcodeurl ?? '/assets/images/qrcode.png');
             }            
             return;
         } catch (err: any) {
@@ -86,7 +85,6 @@ export default function Profile() {
             setTimeout(() => { setProfileMsg(''); }, 3000);
         },
         onError: (err: any) => {
-            console.log(err)
             setProfileMsg(err.message);
             setTimeout(() => { setProfileMsg(''); }, 3000);
         }
@@ -103,12 +101,12 @@ export default function Profile() {
                         lastname: lname,
                         mobile: mobile 
                     }
-                }
-                // context: {
-                //     headers: {
-                //         Authorization: `Bearer ${token}`,
-                //     },
-                // },
+                },
+                context: {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
             });
         } catch (err: any) {
             setProfileMsg(err.message);
@@ -121,14 +119,13 @@ export default function Profile() {
             setProfileMsg(data.uploadPicture.message);
             setTimeout(() => { 
                 setProfileMsg(''); 
-                let userpic: string = `http://127.0.0.1:3000/assets/users/${data.uploadPicture.userpicture}`;
+                let userpic: string = `/assets/users/${data.uploadPicture.userpicture}`;
                 setUserpicture(userpic);
                 sessionStorage.setItem('USERPIC',userpic);
                 window.location.reload();
             }, 3000);
         },
         onError: (err: any) => {
-            console.log(err);
             setProfileMsg(err.message);
             setTimeout(() => { setProfileMsg(''); }, 3000);
         }
@@ -144,15 +141,14 @@ export default function Profile() {
                 variables: {
                         id: userid,
                         file: file, 
-                }
-                // context: {
-                //     headers: {
-                //         Authorization: `Bearer ${token}`,
-                //     },
-                // },
+                },
+                context: {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
             });
         } catch (err: any) {
-            console.log(err);
             setProfileMsg(err.message);
             setTimeout(() => { setProfileMsg(''); }, 3000);
         }
@@ -189,10 +185,9 @@ export default function Profile() {
 
     const [activateMfa] = useApolloMutation<MfaActivationData, MfaActivationVariables>(ACTIVATE_MFA, {
         onCompleted: (data: any) => {
-            console.log(data);
             setProfileMsg(data.activateMfa.message);
             if (data.activateMfa.qrcodeurl === null) {
-                setQrcodeurl("/images/qrcode.png");
+                setQrcodeurl("/assets/images/qrcode.png");
             } else {
                 setQrcodeurl(data.activateMfa.qrcodeurl);
             }
@@ -213,12 +208,12 @@ export default function Profile() {
                        id: userid,
                        twofactorenabled: true
                     }
-                }
-                // context: {
-                //     headers: {
-                //         Authorization: `Bearer ${token}`,
-                //     },
-                // },
+                },
+                context: {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
             });
         } catch (err: any) {
             setTimeout(() => { setProfileMsg(''); }, 3000);
@@ -233,12 +228,12 @@ export default function Profile() {
                       id: userid,
                       twofactorenabled: false
                     }
-                }
-                // context: {
-                //     headers: {
-                //         Authorization: `Bearer ${token}`,
-                //     },
-                // },
+                },
+                context: {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
             });
         } catch (err: any) {
             setTimeout(() => { setProfileMsg(''); }, 3000);
@@ -288,12 +283,12 @@ export default function Profile() {
                     id: userid,
                     password: newpassword 
                   }
-                }
-                // context: {
-                //     headers: {
-                //         Authorization: `Bearer ${token}`,
-                //     },
-                // },
+                },
+                context: {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
             });
         } catch (err: any) {
             setTimeout(() => { setProfileMsg(''); }, 3000);

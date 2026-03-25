@@ -52,8 +52,8 @@ export default function Prodsearch() {
             if (data?.productSearch) {
               setPage(data.productSearch.page);
               setProdsearch(data.productSearch.products);
-              setTotpage(data.productSearch.totalPages);
-              setTotalrecords(data.productSearch.totalRecords);
+              setTotpage(data.productSearch.totpage);
+              setTotalrecords(data.productSearch.totalrecords);
             }            
             return;
         } catch (err: any) {
@@ -123,7 +123,7 @@ return (
               return (
               <div className='col-md-4'>
               <div key={item['id']} className="card mx-3 mt-3">
-                  <img src={`http://127.0.0.1:3000/assets/products/${item['productpicture']}`} className="card-img-top product-size" alt=""/>
+                  <img src={`/assets/products/${item['productpicture']}`} className="card-img-top product-size" alt=""/>
                   <div className="card-body">
                     <h5 className="card-title">Descriptions</h5>
                     <p className="card-text desc-h">{item['descriptions']}</p>

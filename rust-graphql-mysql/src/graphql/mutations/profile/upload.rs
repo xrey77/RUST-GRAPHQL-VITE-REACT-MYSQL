@@ -2,11 +2,9 @@ use async_graphql::*;
 use tokio::fs;
 use std::path::Path;
 use std::ffi::OsStr;
-// use tokio::io::AsyncWriteExt;
-// use tokio::io::AsyncWriteExt as _;
-
 use async_graphql::{Object, Context, Result, InputObject, SimpleObject};
 use sqlx::MySqlPool;
+use crate::core::authenticated_users::AuthenticatedUser;
 
 #[derive(InputObject)]
 pub struct UploadInput {
@@ -31,6 +29,14 @@ impl UploadPicture {
 
         input: UploadInput
     ) -> Result<UploadResponse> {
+        let user = ctx.data::<AuthenticatedUser>()?;
+        
+        match user {
+            AuthenticatedUser::User(claims) => Ok(format!("Hello user {}", claims.sub)),
+            _ => Err(async_graphql::Error::new("Unauthorized")),
+        }?;
+
+
         let pool = ctx.data::<MySqlPool>()?;
 
         let upload = input.file.value(ctx)?;
