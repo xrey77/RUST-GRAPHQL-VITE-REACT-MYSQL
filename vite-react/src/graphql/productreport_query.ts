@@ -18,6 +18,7 @@ export const LIST_QUERY = gql`
   }
 `;
 
+
 export interface ProductData {
     id: number
     category: string

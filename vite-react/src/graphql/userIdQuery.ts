@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const GETUSERID_QUERY = gql`
   query GetUserId($id: ID!) {
-    getUserId(id: $id){
+    user(id: $id) {
       id
       firstname
       lastname
@@ -10,10 +10,9 @@ export const GETUSERID_QUERY = gql`
       mobile
       isactivated
       isblocked
-      mailtoken
-      userpicture
+      userpic
       qrcodeurl
-    }
+    }  
   }
 `;
 
@@ -32,7 +31,7 @@ export interface UserData {
 }
 
 export interface GetUserIdData {
-  getUserId: UserData
+  user: UserData
 }
 
 export interface GetUserIdVariables {

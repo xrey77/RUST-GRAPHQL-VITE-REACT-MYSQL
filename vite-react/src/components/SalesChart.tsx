@@ -143,8 +143,8 @@ export default function SalesChart() {
       setMessage("Loading chart data...");
     try {
         const { data } = await salesList();
-          if (data?.salesList) {
-              const sales = data.salesList;
+          if (data?.saleList) {
+              const sales = data.saleList;
 
               setChartData({
                   labels: sales.map((item: SaleData) => 
@@ -157,7 +157,7 @@ export default function SalesChart() {
                   }],
                 });              
           }      
-        } catch (err: any) {        
+        } catch (err: any) {     
             if (err.AbortError) {
                 setMessage(err.message);
             }

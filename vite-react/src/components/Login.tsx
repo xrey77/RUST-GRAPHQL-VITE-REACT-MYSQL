@@ -13,21 +13,21 @@ export default function Login() {
    const [isdiabled, setIsdisabled] = useState(false);
    const navigate = useNavigate();
 
-  const [loginUser ] = useApolloMutation<LoginUserData, LoginUserVariables>(SIGNIN_MUTATION, {
+  const [signinUser ] = useApolloMutation<LoginUserData, LoginUserVariables>(SIGNIN_MUTATION, {
       onCompleted: (data: any) => {
-        setMessage(data.loginUser.message);
-        let userpic: string = `http://127.0.0.1:3000/users/${data.loginUser.user.userpicture}`
-        if (data.loginUser.user.qrcodeurl !== null) {
-          window.sessionStorage.setItem('USERID',data.loginUser.user.id);
-          window.sessionStorage.setItem('TOKEN',data.loginUser.token);
+        setMessage(data.signinUser.message);
+        let userpic: string = `http://127.0.0.1:3000/assets/users/${data.signinUser.userpic}`
+        if (data.signinUser.qrcodeurl !== null) {
+          window.sessionStorage.setItem('USERID',data.signinUser.id);
+          window.sessionStorage.setItem('TOKEN',data.signinUser.token);
           window.sessionStorage.setItem('USERPIC', userpic);
           jQuery("#loginReset").trigger("click");
           setIsdisabled(false);
           jQuery("#mfaModal").trigger("click");
         } else {
-          window.sessionStorage.setItem('USERID',data.loginUser.user.id);
-          window.sessionStorage.setItem('USERNAME',data.loginUser.user.username);
-          window.sessionStorage.setItem('TOKEN',data.loginUser.token);                        
+          window.sessionStorage.setItem('USERID',data.signinUser.id);
+          window.sessionStorage.setItem('USERNAME',data.signinUser.username);
+          window.sessionStorage.setItem('TOKEN',data.signinUser.token);                        
           window.sessionStorage.setItem('USERPIC', userpic);
           setIsdisabled(false);
           jQuery("#loginReset").trigger('"click')
@@ -48,10 +48,12 @@ export default function Login() {
     setMessage('please wait...');
     setIsdisabled(true);
     try {
-        await loginUser({
+        await signinUser({
           variables: {
+            input: {
             username: username,
             password: password
+            }
           }
         });
       } catch (err: any) {

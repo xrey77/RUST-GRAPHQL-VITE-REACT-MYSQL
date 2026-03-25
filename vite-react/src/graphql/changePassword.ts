@@ -1,20 +1,27 @@
 import { gql } from '@apollo/client';
 
+  // mutation UpdatePassword(
+  //   $id: ID!,
+  //   $password: String!) {
+  //     updatePassword(
+  //       input: {
+  //         id: $id,
+  //         password: $password
+  //       }  
+  //     ) {
+  //       message
+  //       errors
+  //     }  
+  // }
+
 export const CHANGE_PASSWORD = gql`
-  mutation UpdatePassword(
-    $id: ID!,
-    $password: String!) {
-      updatePassword(
-        input: {
-          id: $id,
-          password: $password
-        }  
-      ) {
-        message
-        errors
-      }  
+  mutation ChangePassword($input: ChangePasswordInput!) {
+    changePassword(input: $input) {
+      message
+    }
   }
 `;
+
 
 
 export interface UserData {
@@ -32,10 +39,12 @@ export interface UserData {
 }
 
 export interface PasswordData {
-  updatePassword: UserData;
+  changePassword: UserData;
 }
 
 export interface PasswordVariables {
-    id: number;
-    password: string;
+  input: {
+    id: number,
+    password: string
+  }
 }

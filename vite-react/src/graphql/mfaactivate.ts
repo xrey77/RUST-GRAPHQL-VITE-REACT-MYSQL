@@ -1,21 +1,30 @@
 import { gql } from '@apollo/client';
 
+  // mutation MfaActivation(
+  //   $id: ID!,
+  //   $twofactorenabled: Boolean!) {
+  //     mfaActivation(
+  //       input: {
+  //         id: $id,
+  //         twofactorenabled: $twofactorenabled
+  //       }
+  //     ) {
+  //       message
+  //       qrcodeurl
+  //       errors
+  //     }
+  // }
+
 export const ACTIVATE_MFA = gql`
-  mutation MfaActivation(
-    $id: ID!,
-    $twofactorenabled: Boolean!) {
-      mfaActivation(
-        input: {
-          id: $id,
-          twofactorenabled: $twofactorenabled
-        }
-      ) {
-        message
-        qrcodeurl
-        errors
-      }
+  mutation ActivateMfa($input: ActivateMfaInput!) {
+    activateMfa(input: $input) {
+      qrcodeurl
+      message
+    }
   }
 `;
+
+
 
 export interface UserData {
   id: number;
@@ -32,10 +41,12 @@ export interface UserData {
 }
 
 export interface MfaActivationData {
-  mfaActivation: UserData;
+  activateMfa: UserData;
 }
 
 export interface MfaActivationVariables {
-    id: number;
-    twofactorenabled: boolean;
+  input: {
+    id: number,
+    twofactorenabled: boolean
+  }
 }

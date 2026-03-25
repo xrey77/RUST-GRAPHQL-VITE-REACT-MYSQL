@@ -1,27 +1,8 @@
 import { gql } from '@apollo/client';
 
-  // query {
-  //   productsCategory {
-  //     name 
-  //     products {
-  //       id
-  //       descriptions
-  //       qty
-  //       unit
-  //       costprice
-  //       sellprice
-  //       saleprice
-  //       productpicture
-  //       alertstocks
-  //       criticalstocks
-  //     }
-  //   }
-  // }
-
-
 export const PRODUCT_CATEGORY_QUERY = gql`
-  query ProductCategory{
-    productCategories{
+  query ProductByCategory{
+    categories{
       name
       products {
         id
@@ -38,8 +19,6 @@ export const PRODUCT_CATEGORY_QUERY = gql`
     }
   }
 `;
-
-
 
 export interface Product {
   id: string;
@@ -60,7 +39,7 @@ export interface Category {
 }
 
 export interface ProductCategoriesData {
-  productCategories: Category[];
+  categories: Category[];
 }
 
 

@@ -1,32 +1,31 @@
 import { gql } from '@apollo/client';
 
-  // query pageProducts($page: Int!) {    
-  //     pageProducts {
-  //       productsList(page: $page) {
-  //         page
-  //         totpage
-  //         totalrecords
-  //         products {
-  //           id
-  //           category
-  //           descriptions
-  //           qty
-  //           unit
-  //           costprice
-  //           sellprice
-  //           saleprice
-  //           productpicture
-  //           alertstocks
-  //           criticalstocks
-  //         }
-  //       }
+  // query ProductList($page: Int!) {
+  //   productList(page: $page) {
+  //     products{
+  //       id
+  //       category
+  //       descriptions
+  //       qty
+  //       unit
+  //       costprice
+  //       sellprice
+  //       saleprice
+  //       productpicture
+  //       alertstocks
+  //       criticalstocks
+  //     }
+  //     page
+  //     totalPages
+  //     totalRecords    
   //   }
   // }
 
+  
 export const LIST_QUERY = gql`
   query ProductList($page: Int!) {
     productList(page: $page) {
-      products{
+      products {
         id
         category
         descriptions
@@ -38,10 +37,10 @@ export const LIST_QUERY = gql`
         productpicture
         alertstocks
         criticalstocks
-      }
+      }    
       page
-      totalPages
-      totalRecords    
+      totpage
+      totalrecords
     }
   }
 `;
@@ -65,8 +64,8 @@ export interface ProductData {
 export interface ProductListData {
     productList: {
       page: number;
-      totalPages: number;
-      totalRecords: number;
+      totpage: number;
+      totalrecords: number;
       products: ProductData[];
     }
 }

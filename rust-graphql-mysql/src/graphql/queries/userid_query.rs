@@ -35,8 +35,7 @@ impl UserByIdQuery {
 //     isblocked
 //     userpic
 //     qrcodeurl
-//   }
-  
+//   }  
 // }
 
 // =======VARIABLES=============

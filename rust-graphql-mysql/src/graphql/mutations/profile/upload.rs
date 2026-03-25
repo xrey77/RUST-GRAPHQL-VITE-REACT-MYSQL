@@ -58,7 +58,6 @@ impl UploadPicture {
         fs::create_dir_all("assets/users").await?;
         let mut dest_file = fs::File::create(&file_path).await?;
 
-        // let mut content = upload.content;
         let mut content = tokio::fs::File::from_std(upload.content);
         tokio::io::copy(&mut content, &mut dest_file).await?;
 
@@ -76,3 +75,17 @@ impl UploadPicture {
         })
     }
 }
+
+// REQUEST
+// mutation UploadPicture($id: Int!, $file: Upload!) {
+//   uploadPicture(
+//     input: {
+//       id: $id,
+//       file: $file
+//     }
+//   ) {
+//     userpic
+//     message
+//   }
+  
+// }

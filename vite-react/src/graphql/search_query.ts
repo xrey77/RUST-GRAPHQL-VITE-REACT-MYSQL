@@ -1,12 +1,8 @@
 import { gql } from '@apollo/client';
 
-  // query SearchProduct($page: Int!, $keyword: String!) {
-  // searchProducts{
-  //   searchProduct(page: $page, keyword: $keyword) {
-  //     page
-  //     totpage
-  //     totalrecords
-  //     products {
+  // query ProductSearch($page: Int!, $keyword: String!) {
+  //   productSearch(page: $page, keyword: $keyword) {
+  //     products{
   //       id
   //       category
   //       descriptions
@@ -17,16 +13,19 @@ import { gql } from '@apollo/client';
   //       saleprice
   //       productpicture
   //       alertstocks
-  //       criticalstocks
+  //       criticalstocks      
   //     }
+  //     page
+  //     totalPages
+  //     totalRecords
   //   }
   // }
-  // }
 
+  
 export const SEARCH_QUERY = gql`
   query ProductSearch($page: Int!, $keyword: String!) {
     productSearch(page: $page, keyword: $keyword) {
-      products{
+      products {
         id
         category
         descriptions
@@ -37,14 +36,16 @@ export const SEARCH_QUERY = gql`
         saleprice
         productpicture
         alertstocks
-        criticalstocks      
-      }
+        criticalstocks
+      }    
       page
-      totalPages
-      totalRecords
+      totpage
+      totalrecords
     }
   }
 `;
+
+
 
 export interface ProductData {
     id: number
@@ -63,8 +64,8 @@ export interface ProductData {
 export interface ProductSearchData {
     productSearch: {
       page: number;
-      totalPages: number;
-      totalRecords: number;
+      totpage: number;
+      totalrecords: number;
       products: ProductData[];
     }
 }

@@ -34,8 +34,8 @@ export default function Prodlist() {
             if (data?.productList) {
               setPage(data.productList.page);
               setProducts(data.productList.products);
-              setTotpage(data.productList.totalPages);
-              setTotalrecs(data.productList.totalRecords);
+              setTotpage(data.productList.totpage);
+              setTotalrecs(data.productList.totalrecords);
             }            
             return;
         } catch (err: any) {

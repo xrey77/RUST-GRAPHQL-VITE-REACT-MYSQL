@@ -20,7 +20,6 @@ struct User {
     userpic: String,
     qrcodeurl: String,
     secret: String    
-
     pub role: Role, 
 }
 

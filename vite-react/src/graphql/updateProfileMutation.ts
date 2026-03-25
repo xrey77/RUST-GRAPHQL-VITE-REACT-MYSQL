@@ -1,41 +1,12 @@
 import { gql } from '@apollo/client';
 
-  // mutation UpdateProfile(
-  // $id: Int!,
-  // $firstName: String!,
-  // $lastName: String!,
-  // $mobile: String!) {    
-  //   updateMutation(
-  //     id: $id,
-  //     firstName: $firstName,
-  //     lastName: $lastName,
-  //     mobile: $mobile      
-  //   ) {
-  //   message
-  //   }
-  // }
-
 export const UPDATE_PROFILE = gql`
-  mutation UpdateProfile(
-    $id: ID!,
-    $firstname: String!,
-    $lastname: String!,
-    $mobile: String!) {
-      updateProfile(
-        input: {
-          id: $id,
-          firstname: $firstname,
-          lastname: $lastname,
-          mobile: $mobile
-        }      
-      ) {
-        message
-        errors
-      }    	  
+  mutation UpdateProfile($input: ProfileInput!) {
+    profileUpdate(input: $input){
+      message
+    }
   }
 `;
-
-
 
 export interface UserData {
   id: number;
@@ -52,12 +23,14 @@ export interface UserData {
 }
 
 export interface ProfiledData {
-  updateProfile: UserData;
+  profileUpdate: UserData;
 }
 
 export interface ProfileVariables {
-    id: number;
-    firstname: string
-    lastname: string;
-    mobile: string;
+  input: {
+    id: number,
+    firstname: string,
+    lastname: string,
+    mobile: string
+  }
 }

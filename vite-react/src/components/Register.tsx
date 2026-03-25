@@ -14,12 +14,13 @@ export default function Register() {
 
   const [registerUser] = useApolloMutation<CreateUserData, CreateUserVariables>(SIGNUP_MUTATION, {
       onCompleted: (data: any) => {
+        console.log(data);
         setMessage(data.registerUser.message);
-        setTimeout(() => { setMessage(''); }, 3000);
+        // setTimeout(() => { setMessage(''); }, 3000);
       },
       onError: (err: any) => {
         setMessage(err.message);
-        setTimeout(() => { setMessage(''); }, 3000);
+        // setTimeout(() => { setMessage(''); }, 3000);
       }
   });
 
@@ -29,12 +30,14 @@ export default function Register() {
    try {
       await registerUser({
         variables: {
+          input: {
             firstname: firstname, 
             lastname: lastname, 
             email: email, 
             mobile: mobile, 
             username: username, 
             password: password 
+          }
         }
       });
     } catch (err: any) {

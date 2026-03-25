@@ -49,8 +49,7 @@ export const InventoryReport = ({ data }: { data: ProductCategoriesData }) => (
         
       </View>
 
-      {/* <Text style={styles.header}>Product Inventory Report</Text> */}
-      {data.productCategories.map((cat, i) => (
+      {data.categories.map((cat, i) => (
         <View key={i} style={styles.categorySection}>
           <Text style={styles.categoryTitle}>{cat.name}</Text>
           {/* Table Header */}

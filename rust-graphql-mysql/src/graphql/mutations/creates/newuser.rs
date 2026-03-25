@@ -28,7 +28,6 @@ impl FormRegistration {
         input: RegistrationInput
     ) -> Result<RegistrationResponse> {
         let pool = ctx.data::<MySqlPool>()?;
-        
 
         let existing = sqlx::query!(
             "SELECT email, username FROM users WHERE email = ? OR username = ?",
@@ -53,7 +52,7 @@ impl FormRegistration {
         let password_hash = hash(input.password, DEFAULT_COST)
             .map_err(|_| async_graphql::Error::new("Internal server error during hashing"))?;
 
-        sqlx::query!(
+        let result = sqlx::query!(
             "INSERT INTO users (firstname, lastname, email, mobile, username, password_digest, role_id) VALUES (?, ?, ?, ?, ?, ?, 2)",
             input.firstname,
             input.lastname,
@@ -64,6 +63,16 @@ impl FormRegistration {
         )
         .execute(pool)
         .await?;
+
+        let user_id = result.last_insert_id() as i32;
+
+        sqlx::query!(
+                    "INSERT INTO user_roles (user_id, role_id) VALUES (?, ?)",
+                    user_id,
+                    2
+                )
+                .execute(pool)
+                .await?;
 
         Ok(RegistrationResponse {
             message: "You have registered successfully, please login now.".to_string(),

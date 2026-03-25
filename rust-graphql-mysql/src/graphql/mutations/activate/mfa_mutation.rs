@@ -54,7 +54,10 @@ impl ActivateMfa {
             ).unwrap();        
 
             let qrcode_base64 = totp.get_qr_base64();
-            let qrcode_string: String = qrcode_base64.clone().expect("Failed to get the base64 string");
+            let qrcode_string = format!(
+                "data:image/png;base64,{}", 
+                qrcode_base64.as_ref().expect("Failed to get the base64 string")
+            );            
 
             let secret_bytes: Vec<u8> = secret.to_bytes().expect("Failed to convert secret to bytes");
         

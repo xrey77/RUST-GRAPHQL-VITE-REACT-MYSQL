@@ -16,8 +16,8 @@ export default function ProductCategory() {
         setMessage("Loading inventory data...");
         try {
             const { data } = await products();
-            if (data?.productCategories) {              
-                setCategoryData(data.productCategories);
+            if (data?.categories) {              
+                setCategoryData(data.categories);
             }                
 
         } catch (err: any) {  
@@ -41,7 +41,7 @@ export default function ProductCategory() {
   
   <div className="container-fluid"> 
     <PDFViewer width={width-50} height={height}>
-      <InventoryReport data={{ productCategories: categoryData }} />
+      <InventoryReport data={{ categories: categoryData }} />
     </PDFViewer>
     <br/><br/><br/><br/>
   </div>

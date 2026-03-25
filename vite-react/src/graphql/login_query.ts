@@ -1,54 +1,29 @@
 import { gql } from '@apollo/client';
 
-  // mutation UserLogin($username: String!, $password: String!) {
-  //   loginMutation(username: $username, password: $password) {
-  //     user {
-  //       id
-  //       firstName
-  //       lastName      
-  //       email
-  //       mobile
-  //       username
-  //       isActivated
-  //       isBlocked
-  //       userpicture
-  //       mailtoken
-  //       qrcodeurl
-  //     }
-  //     token
-  //     message
-
-
 export const SIGNIN_MUTATION = gql`
-    mutation LoginUser(
-      $username: String!,
-      $password: String!
-    ) {
-      loginUser(
-        input:{
-          username: $username,
-          password: $password
-        }) 
-      {
-        user {
-          id
-          firstname,
-          lastname,
-          email
-          mobile
-          username
-          isactivated
-          isblocked
-          mailtoken
-          userpicture
-          qrcodeurl    
-        }  
-        token
-        message 
-      	errors
-      }
+  mutation SigninUser($input: SigninInput!) {
+    signinUser(input: $input) {
+      id
+      firstname
+      lastname
+      email
+      mobile
+      username
+      userpic
+      isactivated
+      isblocked
+      mailtoken
+      userpic
+      qrcodeurl
+      rolename
+      mailtoken    
+      message
+      token
     }
+  }
   `
+
+
 
   export interface User {
   id: string;
@@ -65,10 +40,12 @@ export const SIGNIN_MUTATION = gql`
 }
 
 export interface LoginUserData {
-  loginUser: User;
+  signinUser: User;
 }
 
 export interface LoginUserVariables {
-    username: string;
-    password: string;
+  input: {
+    username: string,
+    password: string
+  }
 }

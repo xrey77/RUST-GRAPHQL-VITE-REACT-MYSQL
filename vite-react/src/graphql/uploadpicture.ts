@@ -1,18 +1,16 @@
 import { gql } from '@apollo/client';
-  
+
 export const UPLOAD_PICTURE = gql`
-  mutation UploadPicture(
-    $id: ID!,
-    $file: Upload!) {
-      uploadPicture(
-        input: {
-          id: $id,
-          file: $file
-        }) {
-          userpicture
-          message
-          errors
-      }          
+  mutation UploadPicture($id: Int!, $file: Upload!) {
+    uploadPicture(
+      input: {
+        id: $id,
+        file: $file
+      }
+    ) {
+      userpic
+      message
+    }    
   }
 `;
 
@@ -35,6 +33,6 @@ export interface UploadData {
 }
 
 export interface UploadVariables {
-    id: number;
-    file: File;
+    id: number,
+    file: File
 }
